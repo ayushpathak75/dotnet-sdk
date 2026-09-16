@@ -111,10 +111,6 @@ namespace OpenFga.Sdk.Test.Models {
 
             JsonSerializer.Deserialize<ListObjectsResponse>(jsonResponse);
         }
-
-        /// <summary>
-        /// Test WriteRequestWrites Equals with null and non-null OnDuplicate
-        /// </summary>
         [Fact]
         public void WriteRequestWritesEqualsNullSafety() {
             var writesWithNull = new WriteRequestWrites(new List<TupleKey>(), onDuplicate: null);
@@ -124,11 +120,13 @@ namespace OpenFga.Sdk.Test.Models {
             Assert.False(writesWithNull.Equals(writesWithError));
             Assert.False(writesWithError.Equals(writesWithNull));
             Assert.True(writesWithNull.Equals(writesWithNull2));
-        }
 
-        /// <summary>
-        /// Test WriteRequestDeletes Equals with null and non-null OnMissing
-        /// </summary>
+            var writesNullProps1 = new WriteRequestWrites(new List<TupleKey>(), onDuplicate: null) { AdditionalProperties = null };
+            var writesNullProps2 = new WriteRequestWrites(new List<TupleKey>(), onDuplicate: null) { AdditionalProperties = null };
+            Assert.True(writesNullProps1.Equals(writesNullProps2));
+            Assert.False(writesNullProps1.Equals(writesWithNull));
+            Assert.False(writesWithNull.Equals(writesNullProps1));
+        }
         [Fact]
         public void WriteRequestDeletesEqualsNullSafety() {
             var deletesWithNull = new WriteRequestDeletes(new List<TupleKeyWithoutCondition>(), onMissing: null);
@@ -138,6 +136,12 @@ namespace OpenFga.Sdk.Test.Models {
             Assert.False(deletesWithNull.Equals(deletesWithError));
             Assert.False(deletesWithError.Equals(deletesWithNull));
             Assert.True(deletesWithNull.Equals(deletesWithNull2));
+
+            var deletesNullProps1 = new WriteRequestDeletes(new List<TupleKeyWithoutCondition>(), onMissing: null) { AdditionalProperties = null };
+            var deletesNullProps2 = new WriteRequestDeletes(new List<TupleKeyWithoutCondition>(), onMissing: null) { AdditionalProperties = null };
+            Assert.True(deletesNullProps1.Equals(deletesNullProps2));
+            Assert.False(deletesNullProps1.Equals(deletesWithNull));
+            Assert.False(deletesWithNull.Equals(deletesNullProps1));
         }
     }
 }

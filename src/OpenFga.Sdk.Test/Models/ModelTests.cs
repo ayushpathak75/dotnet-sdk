@@ -111,5 +111,33 @@ namespace OpenFga.Sdk.Test.Models {
 
             JsonSerializer.Deserialize<ListObjectsResponse>(jsonResponse);
         }
+
+        /// <summary>
+        /// Test WriteRequestWrites Equals with null and non-null OnDuplicate
+        /// </summary>
+        [Fact]
+        public void WriteRequestWritesEqualsNullSafety() {
+            var writesWithNull = new WriteRequestWrites(new List<TupleKey>(), onDuplicate: null);
+            var writesWithError = new WriteRequestWrites(new List<TupleKey>(), onDuplicate: WriteRequestWrites.OnDuplicateEnum.Error);
+            var writesWithNull2 = new WriteRequestWrites(new List<TupleKey>(), onDuplicate: null);
+
+            Assert.False(writesWithNull.Equals(writesWithError));
+            Assert.False(writesWithError.Equals(writesWithNull));
+            Assert.True(writesWithNull.Equals(writesWithNull2));
+        }
+
+        /// <summary>
+        /// Test WriteRequestDeletes Equals with null and non-null OnMissing
+        /// </summary>
+        [Fact]
+        public void WriteRequestDeletesEqualsNullSafety() {
+            var deletesWithNull = new WriteRequestDeletes(new List<TupleKeyWithoutCondition>(), onMissing: null);
+            var deletesWithError = new WriteRequestDeletes(new List<TupleKeyWithoutCondition>(), onMissing: WriteRequestDeletes.OnMissingEnum.Error);
+            var deletesWithNull2 = new WriteRequestDeletes(new List<TupleKeyWithoutCondition>(), onMissing: null);
+
+            Assert.False(deletesWithNull.Equals(deletesWithError));
+            Assert.False(deletesWithError.Equals(deletesWithNull));
+            Assert.True(deletesWithNull.Equals(deletesWithNull2));
+        }
     }
 }

@@ -136,7 +136,8 @@ namespace OpenFga.Sdk.Model {
                 ) &&
                 (
                     this.OnMissing == input.OnMissing ||
-                    this.OnMissing.Equals(input.OnMissing)
+                    (this.OnMissing != null &&
+                    this.OnMissing.Equals(input.OnMissing))
                 )
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && this.AdditionalProperties.All(kv => input.AdditionalProperties.TryGetValue(kv.Key, out var inputValue) && Equals(kv.Value, inputValue)));
         }

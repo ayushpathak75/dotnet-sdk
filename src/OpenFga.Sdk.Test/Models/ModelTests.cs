@@ -143,5 +143,15 @@ namespace OpenFga.Sdk.Test.Models {
             Assert.False(deletesNullProps1.Equals(deletesWithNull));
             Assert.False(deletesWithNull.Equals(deletesNullProps1));
         }
+        [Fact]
+        public void CheckRequestEqualsNullSafety() {
+            var checkWithDefault = new CheckRequest(new CheckRequestTupleKey("doc:1", "viewer", "user:anne"));
+            var checkWithNullProps1 = new CheckRequest(new CheckRequestTupleKey("doc:1", "viewer", "user:anne")) { AdditionalProperties = null };
+            var checkWithNullProps2 = new CheckRequest(new CheckRequestTupleKey("doc:1", "viewer", "user:anne")) { AdditionalProperties = null };
+
+            Assert.True(checkWithNullProps1.Equals(checkWithNullProps2));
+            Assert.False(checkWithNullProps1.Equals(checkWithDefault));
+            Assert.False(checkWithDefault.Equals(checkWithNullProps1));
+        }
     }
 }
